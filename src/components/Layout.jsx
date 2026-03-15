@@ -1,14 +1,15 @@
 import Navbar from './Navbar';
-import { Container } from 'react-bootstrap';
+import Footer from './Footer';
 
 const Layout = ({ children }) => {
   return (
-    <>
+    <div className="d-flex flex-column min-vh-100">
       <Navbar />
-      <Container className="mb-5">
+      <main className="flex-grow-1">
         {children}
-      </Container>
-    </>
+      </main>
+      <Footer />
+    </div>
   );
 };
 

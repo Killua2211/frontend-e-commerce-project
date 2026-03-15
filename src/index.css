@@ -1,11 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
+  --primary-color: #6366f1;
+  --secondary-color: #ec4899;
+  --bg-color: #f8fafc;
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+  --card-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.5);
+
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  line-height: 1.6;
   font-weight: 400;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  color-scheme: light;
+  color: var(--text-main);
+  background-color: var(--bg-color);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -13,56 +23,226 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  /* Premium subtle mesh gradient background */
+  background-color: var(--bg-color);
+  background-image:
+    radial-gradient(at 0% 0%, hsla(253, 16%, 7%, 0) 0, transparent 50%),
+    radial-gradient(at 50% 0%, hsla(225, 39%, 30%, 0) 0, transparent 50%),
+    radial-gradient(at 100% 0%, hsla(339, 49%, 30%, 0) 0, transparent 50%);
+  background-attachment: fixed;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+/* Typography Enhancements */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text-main);
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+.text-gradient {
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
+/* Premium Buttons */
+.btn {
+  border-radius: 12px !important;
+  font-weight: 600 !important;
+  padding: 0.6rem 1.5rem !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  border: none !important;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary-color), #4f46e5) !important;
+  color: white !important;
+  box-shadow: 0 4px 14px 0 rgba(99, 102, 241, 0.39) !important;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5) !important;
+}
+
+.btn-outline-primary {
+  background: transparent !important;
+  color: var(--primary-color) !important;
+  border: 2px solid var(--primary-color) !important;
+}
+
+.btn-outline-primary:hover {
+  background: var(--primary-color) !important;
+  color: white !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px 0 rgba(99, 102, 241, 0.39) !important;
+}
+
+/* Glassmorphism Cards */
+.card {
+  background: var(--card-bg) !important;
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid var(--glass-border) !important;
+  border-radius: 20px !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04) !important;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Glassmorphism Navbar */
+.navbar-glass {
+  background: rgba(255, 255, 255, 0.8) !important;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
+  transition: all 0.3s ease;
+}
+
+.navbar-brand {
+  font-weight: 800 !important;
+  font-size: 1.5rem !important;
+  letter-spacing: -0.05em;
+}
+
+.nav-link {
+  font-weight: 500 !important;
+  color: var(--text-muted) !important;
+  transition: color 0.2s ease;
+  position: relative;
+}
+
+.nav-link:hover {
+  color: var(--primary-color) !important;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: 0;
+  left: 50%;
+  background-color: var(--primary-color);
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+}
+
+.nav-link:hover::after {
+  width: 80%;
+}
+
+/* Badges */
+.badge {
+  padding: 0.5em 0.9em !important;
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.02em;
+}
+
+/* Animations */
+@keyframes float {
+  0% {
+    transform: translateY(0px);
   }
-  a:hover {
-    color: #747bff;
+
+  50% {
+    transform: translateY(-15px);
   }
-  button {
-    background-color: #f9f9f9;
+
+  100% {
+    transform: translateY(0px);
   }
+}
+
+/* Dashboard Menu Premium */
+.dashboard-link {
+  color: var(--text-muted) !important;
+  font-weight: 500 !important;
+  border-radius: 12px !important;
+  padding: 0.8rem 1.25rem !important;
+  transition: all 0.3s ease !important;
+  background: transparent !important;
+}
+
+.dashboard-link:hover {
+  background: rgba(99, 102, 241, 0.08) !important;
+  color: var(--primary-color) !important;
+  transform: translateX(4px);
+}
+
+.dashboard-link.active {
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important;
+  color: white !important;
+  box-shadow: 0 4px 14px 0 rgba(99, 102, 241, 0.39) !important;
+  font-weight: 600 !important;
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeInScale 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Form Controls */
+.form-control,
+.form-select {
+  border-radius: 12px !important;
+  padding: 0.75rem 1.25rem !important;
+  border: 1px solid #e2e8f0 !important;
+  background: rgba(255, 255, 255, 0.9) !important;
+  transition: all 0.2s ease !important;
+}
+
+.form-control:focus,
+.form-select:focus {
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15) !important;
+  border-color: var(--primary-color) !important;
+}
+
+/* Footer Premium */
+.footer-premium {
+  background: #0f172a;
+  position: relative;
+  overflow: hidden;
+}
+
+.footer-premium::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
 }

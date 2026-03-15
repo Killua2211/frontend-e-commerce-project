@@ -5,9 +5,9 @@ import ManageCarts from './ManageCarts';
 import ManageUsers from './ManageUsers';
 
 const DashboardSummary = () => (
-  <Card body className="text-center py-5 shadow-sm">
-    <h3>Welcome to the Dashboard</h3>
-    <p className="text-muted">Select an option from the sidebar to manage your store's resources.</p>
+  <Card body className="text-center py-5 shadow-sm border-0" style={{ background: 'rgba(255, 255, 255, 0.8)', backdropFilter: 'blur(10px)' }}>
+    <h3 className="fw-bold mb-3">Welcome to the Dashboard</h3>
+    <p className="text-muted fs-5">Select an option from the sidebar to manage your store's resources.</p>
   </Card>
 );
 
@@ -17,31 +17,31 @@ const Dashboard = () => {
   return (
     <Row className="mt-4">
       <Col md={3} className="mb-4">
-        <Card className="shadow-sm">
-          <Card.Header as="h5">Dashboard Menu</Card.Header>
-          <Nav variant="pills" className="flex-column p-2">
+        <div className="p-4 rounded-4 shadow-sm h-100" style={{ background: 'rgba(255, 255, 255, 0.6)', backdropFilter: 'blur(16px)', border: '1px solid rgba(255, 255, 255, 0.4)' }}>
+          <h5 className="fw-bold mb-4 px-3 text-dark letter-spacing-tight">Dashboard Menu</h5>
+          <Nav variant="pills" className="flex-column gap-2">
             <Nav.Item>
-              <Nav.Link as={Link} to="/dashboard" active={location.pathname === '/dashboard'}>
-                Overview
+              <Nav.Link as={Link} to="/dashboard" active={location.pathname === '/dashboard'} className="dashboard-link">
+                <span className="me-2">📊</span> Overview
               </Nav.Link>
             </Nav.Item>
             <Nav.Item>
-              <Nav.Link as={Link} to="/dashboard/products" active={location.pathname === '/dashboard/products'}>
-                Manage Products
+              <Nav.Link as={Link} to="/dashboard/products" active={location.pathname === '/dashboard/products'} className="dashboard-link">
+                <span className="me-2">🛍️</span> Manage Products
               </Nav.Link>
             </Nav.Item>
             <Nav.Item>
-              <Nav.Link as={Link} to="/dashboard/carts" active={location.pathname === '/dashboard/carts'}>
-                Manage Carts
+              <Nav.Link as={Link} to="/dashboard/carts" active={location.pathname === '/dashboard/carts'} className="dashboard-link">
+                <span className="me-2">🛒</span> Manage Carts
               </Nav.Link>
             </Nav.Item>
             <Nav.Item>
-              <Nav.Link as={Link} to="/dashboard/users" active={location.pathname === '/dashboard/users'}>
-                Manage Users
+              <Nav.Link as={Link} to="/dashboard/users" active={location.pathname === '/dashboard/users'} className="dashboard-link">
+                <span className="me-2">👥</span> Manage Users
               </Nav.Link>
             </Nav.Item>
           </Nav>
-        </Card>
+        </div>
       </Col>
       <Col md={9}>
         <Routes>

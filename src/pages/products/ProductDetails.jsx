@@ -3,6 +3,8 @@ import { useParams, Link } from 'react-router-dom';
 import { Container, Row, Col, Image, Button, Badge, Spinner, Alert } from 'react-bootstrap';
 import axios from 'axios';
 import { useAuth } from '../../context/AuthContext';
+import { useCart } from '../../context/CartContext';
+import { toast } from 'react-toastify';
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -11,6 +13,7 @@ const ProductDetails = () => {
   const [error, setError] = useState('');
   const [activeImage, setActiveImage] = useState('');
   const { user } = useAuth();
+  const { addToCart } = useCart();
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -33,12 +36,11 @@ const ProductDetails = () => {
   if (!product) return null;
 
   const handleAddToCart = () => {
-    // Basic mock logic for adding to cart
     if (!user) {
-      alert("Please login to add to cart");
+      toast.warning("Please login to add to cart");
       return;
     }
-    alert(`Added ${product.title} to cart successfully! (Mock functionality)`);
+    addToCart(product);
   };
 
   return (

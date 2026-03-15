@@ -1,110 +1,86 @@
-import { useState, useEffect } from 'react';
-import { Container, Table, Button, Alert, Spinner, Row, Col, Card } from 'react-bootstrap';
+import { Container, Table, Button, Alert, Row, Col, Card, Badge } from 'react-bootstrap';
 import { useAuth } from '../../context/AuthContext';
-import axios from 'axios';
+import { useCart } from '../../context/CartContext';
 
 const CartPage = () => {
   const { user } = useAuth();
-  const [carts, setCarts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const fetchCarts = async () => {
-      try {
-        if (!user) return;
-        // Fetch cart by user id. User id is part of the auth object from DummyJSON
-        const res = await axios.get(`https://dummyjson.com/carts/user/${user.id}`);
-        setCarts(res.data.carts);
-      } catch (err) {
-        setError('Failed to fetch carts');
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchCarts();
-  }, [user]);
+  const { cartItems, clearCart } = useCart();
 
   if (!user) {
     return <Container className="my-5"><Alert variant="warning">Please login to view your cart.</Alert></Container>;
   }
 
-  if (loading) {
-    return (
-      <Container className="d-flex justify-content-center my-5">
-        <Spinner animation="border" />
-      </Container>
-    );
-  }
-
-  if (error) {
-    return <Container className="my-5"><Alert variant="danger">{error}</Alert></Container>;
-  }
-
-  if (carts.length === 0) {
+  if (cartItems.length === 0) {
     return <Container className="my-5"><h4>Your cart is empty.</h4></Container>;
   }
 
+  const subtotal = cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
+  const totalQuantity = cartItems.reduce((total, item) => total + item.quantity, 0);
+
   return (
     <Container className="my-5">
-      <h2>Your Carts</h2>
-      {carts.map(cart => (
-        <Card key={cart.id} className="mb-4 shadow-sm">
-          <Card.Header className="d-flex justify-content-between align-items-center">
-            <span>Cart #{cart.id}</span>
-            <Badge bg="info">Total Items: {cart.totalQuantity}</Badge>
-          </Card.Header>
-          <Card.Body>
-            <Table responsive striped bordered hover>
-              <thead>
-                <tr>
-                  <th>Product</th>
-                  <th>Price</th>
-                  <th>Quantity</th>
-                  <th>Total</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {cart.products.map(item => (
-                  <tr key={item.id}>
-                    <td>
-                       <div className="d-flex align-items-center gap-3">
-                         <img src={item.thumbnail} alt={item.title} style={{ width: '50px', height: '50px', objectFit: 'contain' }} />
-                         {item.title}
-                       </div>
-                    </td>
-                    <td>${item.price.toFixed(2)}</td>
-                    <td>{item.quantity}</td>
-                    <td>${item.total.toFixed(2)}</td>
-                    <td>
-                      <Button variant="outline-danger" size="sm">Remove</Button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
-            <Row className="mt-3">
-              <Col md={{ span: 5, offset: 7 }}>
-                <Card bg="light">
-                  <Card.Body>
-                    <div className="d-flex justify-content-between mb-2">
-                      <span>Subtotal:</span>
-                      <strong>${cart.discountedTotal.toFixed(2)}</strong>
+      <div className="d-flex justify-content-between align-items-center mb-4">
+        <h2>Your Cart</h2>
+        <Button variant="outline-danger" onClick={clearCart}>Clear Cart</Button>
+      </div>
+      
+      <Card className="mb-4 shadow-sm border-0">
+        <Card.Header className="d-flex justify-content-between align-items-center bg-white border-bottom-0 pt-3 px-4">
+          <span className="fs-5 fw-bold">Local Cart</span>
+          <Badge bg="primary" className="fs-6 py-2 px-3">Total Items: {totalQuantity}</Badge>
+        </Card.Header>
+        <Card.Body className="px-4">
+          <Table responsive hover className="align-middle">
+            <thead className="table-light">
+              <tr>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {cartItems.map(item => (
+                <tr key={item.id}>
+                  <td>
+                    <div className="d-flex align-items-center gap-3">
+                      <img src={item.thumbnail} alt={item.title} style={{ width: '60px', height: '60px', objectFit: 'contain', borderRadius: '8px', border: '1px solid #eee' }} />
+                      <span className="fw-medium">{item.title}</span>
                     </div>
-                    <Button variant="success" className="w-100 mt-2">Proceed to Checkout</Button>
-                  </Card.Body>
-                </Card>
-              </Col>
-            </Row>
-          </Card.Body>
-        </Card>
-      ))}
+                  </td>
+                  <td>${item.price.toFixed(2)}</td>
+                  <td>
+                    <span className="px-3 py-1 bg-light rounded">{item.quantity}</span>
+                  </td>
+                  <td className="fw-semibold">${(item.price * item.quantity).toFixed(2)}</td>
+                  <td>
+                    {/* Simplified for demo. Can add remove specific item if needed. */}
+                    <span className="text-muted">In Cart</span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+          <Row className="mt-4">
+            <Col md={{ span: 5, offset: 7 }}>
+              <Card className="border-0 bg-light rounded-3">
+                <Card.Body className="p-4">
+                  <div className="d-flex justify-content-between mb-3 fs-5">
+                    <span className="text-muted">Subtotal:</span>
+                    <strong className="text-dark">${subtotal.toFixed(2)}</strong>
+                  </div>
+                  <Button variant="primary" size="lg" className="w-100 fw-bold shadow-sm" onClick={() => alert('Proceeding to checkout (Mock)')}>
+                    Proceed to Checkout
+                  </Button>
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
+        </Card.Body>
+      </Card>
     </Container>
   );
 };
-  
-// Need to add Badge to imports
-import { Badge } from 'react-bootstrap';
+
 export default CartPage;
